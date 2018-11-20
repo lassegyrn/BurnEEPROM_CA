@@ -43,8 +43,8 @@
 */
 
 
-#include <Time.h>
-#include <DS1307RTC.h>
+//#include <Time.h>
+//#include <DS1307RTC.h>
 #include "BurnEEPROM.h"
 
 // ********************************
