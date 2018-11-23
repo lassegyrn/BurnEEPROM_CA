@@ -92,11 +92,10 @@ void BurnEEPROM(String Data) { //Function to burn data to slave EEPROM, takes in
     delay(10);
   }
   stopProgramming();
-  return;
 }
 
 
-void ReadEEPROM(String Data) { // Function to read data from slave EEPROM, takes string data to know expected size of data.
+void TestEEPROM(String Data) { // Function to read data from slave EEPROM, takes string data to know expected size of data.
   Serial.println("Trying to read slave eeprom");
 
   uint8_t bytValue[Data.length()]; // constructs byte array length of string
@@ -116,5 +115,4 @@ void ReadEEPROM(String Data) { // Function to read data from slave EEPROM, takes
   // }
 
   stopProgramming();
-  return;
 }
