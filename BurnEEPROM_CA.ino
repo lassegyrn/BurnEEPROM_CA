@@ -72,21 +72,24 @@ String strTmp = "";               // temporary string variable
 
 // Define data to be burned into EEPROM
 
-const String SN = "AD8Kr0ft"; // Serial number
-const String BF = "Temperature 4xRJ45"; // Board Family
-const String BV = "1.0001"; // Board Version
+long lowID = 17895697; //lower bound for 8 digit HEX SN.
+long ID = 268435455; //upper bound for 8 digit HEX SN.
+long Sint; // Serial number
+String SN;
+const String BF = "Temperature hubard16"; // Board Family
+const String BV = "1.0"; // Board Version
 const String CD =  __DATE__ " " __TIME__; // Compile Date
 
 
 //build combined string of these data.
 
-const String Data = SN + ";" + BF + ";" + BV + ";" + CD;
+String Data = SN + ";" + BF + ";" + BV + ";" + CD;
 
 // ********************************
 // SETUP serial monitor
 void setup() {
-  Serial.begin(9600);           // Set baud rate for serial monitor
-  //Serial.begin(115200);
+  //Serial.begin(9600);           // Set baud rate for serial monitor
+  Serial.begin(115200);
 }
 
 // ********************************
@@ -132,14 +135,19 @@ void loop() {
 
 
       else if (iLocBurn >= 0) {
-
+        randomSeed(analogRead(0)*millis());
+        Sint = random(lowID,ID); //lower bound for 8 character HEX SN. 
+        SN = String(Sint,HEX);
+        Data = SN + ";" + BF + ";" + BV + ";" + CD;
         BurnEEPROM(Data);
-
+        
       }
 
 
       else if (iLocTest >= 0) {
         TestEEPROM(Data);
+ 
+        
       }
 
     

@@ -84,12 +84,27 @@ void BurnEEPROM(String Data) { //Function to burn data to slave EEPROM, takes in
 
     spi_transaction(0xC0, (i >> 8) & 0xFF, i & 0xFF, payload[i]); // Write value to address
 
-    Serial.println("Burning " + String(payload[i - 1]) + " at location " + String(i) );
+    //Serial.println("Burning " + String(payload[i - 1]) + " at location " + String(i) );
 
     //  Serial.println("byte no " + String(i) + " equals to "  +payload[i]);
     //  String test = String((char*)payload);
     //  Serial.println(test);
     delay(10);
+    
+  }
+  Serial.println("Done, wrote " + Data + " to EEPROM");
+  Serial.println("Verifying ...");
+    uint8_t bytValue[Data.length()];
+    for (int i = 0; i <= Data.length() + 1; i++) {
+    // ** Need to add check if startProgramming was successfull as Read returns 255 if not connected
+    bytValue[i] = spi_transaction(0xA0, (i >> 8) & 0x1F, i & 0xFF, 0x00) & 0xFF;
+  }
+  String test = String((char*)bytValue);
+  if (test == Data){
+    Serial.println("Complete and verified");
+  }
+  else{
+    Serial.println("Not verified");
   }
   stopProgramming();
 }
@@ -107,7 +122,7 @@ void TestEEPROM(String Data) { // Function to read data from slave EEPROM, takes
   }
   String test = String((char*)bytValue);
   Serial.println(test);
-
+  
 
 
   // for (int i=0; i <= sizeof(bytValue);i++){
