@@ -48,6 +48,7 @@
 #include "BurnEEPROM.h"
 #include "readEEPROM.h"
 #include "GenerateSerial.h"
+#include "constants.h"
 
 // ********************************
 // Declare and initialize variables
@@ -71,20 +72,6 @@ String strTmp = "";               // temporary string variable
 
 
 
-// Define data to be burned into EEPROM
-
-long lowID = 17895697; //lower bound for 8 digit HEX SN.
-long ID = 268435455; //upper bound for 8 digit HEX SN.
-long Sint; // Serial number
-String SN;
-const String BF = "Temperature hubard16"; // Board Family
-const String BV = "1.0"; // Board Version
-const String CD =  __DATE__ " " __TIME__; // Compile Date
-
-
-//build combined string of these data.
-
-String Data = SN + ";" + BF + ";" + BV + ";" + CD;
 
 // ********************************
 // SETUP serial monitor
@@ -132,15 +119,15 @@ void loop() {
 
       if (iLocList >= 0) { // List locations and values for a set number
         //PrintList();
-          GenerateSerial(pserial);
+          GenerateSerial(&serialno[0]);
           Serial.println(serialno);
       }
 
 
       else if (iLocBurn >= 0) {
-        randomSeed(analogRead(0)*millis());
-        Sint = random(lowID,ID); //lower bound for 8 character HEX SN. 
-        SN = String(Sint,HEX);
+       GenerateSerial(&serialno[0]);
+        //SN = String(Sint,HEX);
+        SN = String(serialno);
         Data = SN + ";" + BF + ";" + BV + ";" + CD;
         BurnEEPROM(Data);
         
