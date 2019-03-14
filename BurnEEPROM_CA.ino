@@ -47,6 +47,7 @@
 //#include <DS1307RTC.h>
 #include "BurnEEPROM.h"
 #include "readEEPROM.h"
+#include "GenerateSerial.h"
 
 // ********************************
 // Declare and initialize variables
@@ -130,7 +131,9 @@ void loop() {
     else {
 
       if (iLocList >= 0) { // List locations and values for a set number
-        PrintList();
+        //PrintList();
+          GenerateSerial(pserial);
+          Serial.println(serialno);
       }
 
 
